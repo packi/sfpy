@@ -16,7 +16,7 @@ class SuperFeedr(object):
         self.client.connect(server=(self.hostname, 5222))
         self.jid = jid
         self.client.auth(xmpp.protocol.JID(jid).getNode(), password)
-        self.client.sendInitPresence()
+        self.client.sendInitPresence(requestRoster=0)
         # set the given priority
         self.client.send(xmpp.protocol.Presence(priority=str(priority)))
         
