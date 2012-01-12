@@ -4,7 +4,7 @@ from xmpp.protocol import Iq
 import xml.etree.ElementTree as ET
 
 class SuperFeedr(object):
-    def __init__(self, jid, password, debug=False, hostname=None):
+    def __init__(self, jid, password, debug=False, hostname=None, priority=127):
         if not hostname:
             hostname = 'superfeedr.com'
         self.hostname = hostname
@@ -16,9 +16,9 @@ class SuperFeedr(object):
         self.client.connect(server=(self.hostname, 5222))
         self.jid = jid
         self.client.auth(xmpp.protocol.JID(jid).getNode(), password)
-        self.client.sendInitPresence()
-        # give this client the greatest priority
-        self.client.send(xmpp.protocol.Presence(priority='127'))
+        self.client.sendInitPresence(requestRoster=0)
+        # set the given priority
+        self.client.send(xmpp.protocol.Presence(priority=str(priority)))
         
         self.client.RegisterHandler('message', self.superfeedr_msg)
         self.callback = lambda x: x
