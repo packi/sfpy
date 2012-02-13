@@ -20,8 +20,9 @@ class SuperFeedr(object):
         # set the given priority
         self.client.send(xmpp.protocol.Presence(priority=str(priority)))
         
+        # initialize callback arguments
+        self.on_notification(lambda x: x)
         self.client.RegisterHandler('message', self.superfeedr_msg)
-        self.callback = lambda x: x
 
     def _action(self, action, feed, hostname=None, sleep_time=1):
         if not hostname:
